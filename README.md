@@ -20,7 +20,7 @@ Technical WordPress development laboratory focused on a modern, containerized de
     ├── wp-content/
     │   ├── plugins/
     │   ├── themes/
-    │   │   └── owl-core-concept/
+    │   │   └── hyolanda-art-owl/
     │   └── uploads/
     │
     └── wp-includes/
@@ -87,7 +87,7 @@ The current project theme is:
 wordpress/
 └── wp-content/
     └── themes/
-        └── owl-core-concept/
+        └── hyolanda-art-owl/
 ```
 
 ### `uploads/`
