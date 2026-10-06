@@ -1,0 +1,116 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "landing/hero",
+  "version": "1.0.0",
+  "title": "Landing Hero",
+  "category": "design",
+  "icon": "cover-image",
+  "description": "A flexible landing hero with editable typography, theme colors, CTAs, image backgrounds, and frontend parallax.",
+  "attributes": {
+    "title": {
+      "type": "string",
+      "default": "I have the experience to bring your vision to life."
+    },
+    "subtitle": {
+      "type": "string",
+      "default": "PPT REPORTS, SOCIAL MEDIA POSTS OR ENGAGING ANIMATION"
+    },
+    "titleFontFamily": {
+      "type": "string",
+      "default": ""
+    },
+    "subtitleFontFamily": {
+      "type": "string",
+      "default": ""
+    },
+    "titleColor": {
+      "type": "string",
+      "default": ""
+    },
+    "subtitleColor": {
+      "type": "string",
+      "default": ""
+    },
+    "backgroundType": {
+      "type": "string",
+      "default": "color"
+    },
+    "backgroundColor": {
+      "type": "string",
+      "default": ""
+    },
+    "backgroundImageId": {
+      "type": "number",
+      "default": 0
+    },
+    "backgroundImageUrl": {
+      "type": "string",
+      "default": ""
+    },
+    "backgroundImageAlt": {
+      "type": "string",
+      "default": ""
+    },
+    "backgroundPosition": {
+      "type": "string",
+      "default": "center center"
+    },
+    "parallaxSpeed": {
+      "type": "string",
+      "default": "none"
+    },
+    "cta1Text": {
+      "type": "string",
+      "default": ""
+    },
+    "cta1Url": {
+      "type": "string",
+      "default": ""
+    },
+    "cta1Target": {
+      "type": "boolean",
+      "default": false
+    },
+    "cta1Style": {
+      "type": "string",
+      "default": "primary"
+    },
+    "cta1BackgroundColor": {
+      "type": "string",
+      "default": ""
+    },
+    "cta1TextColor": {
+      "type": "string",
+      "default": ""
+    },
+    "cta2Text": {
+      "type": "string",
+      "default": ""
+    },
+    "cta2Url": {
+      "type": "string",
+      "default": ""
+    },
+    "cta2Target": {
+      "type": "boolean",
+      "default": false
+    },
+    "cta2Style": {
+      "type": "string",
+      "default": "secondary"
+    },
+    "cta2BackgroundColor": {
+      "type": "string",
+      "default": ""
+    },
+    "cta2TextColor": {
+      "type": "string",
+      "default": ""
+    }
+  },
+  "supports": {
+    "anchor": true
+  },
+  "editorScript": "file:./index.jsx"
+}

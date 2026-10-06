@@ -1,0 +1,45 @@
+/*
+ * Editor-only adjustments.
+ *
+ * Vite bundles this stylesheet with the block entry. Every selector is
+ * scoped to Gutenberg's editor wrapper so it has no frontend effect.
+ */
+
+.block-editor__container {
+    .wp-block-landing-hero {
+        .landing-hero__content {
+            cursor: text;
+        }
+
+        .landing-hero__cta {
+            cursor: pointer;
+        }
+
+        .landing-hero__media-control {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .landing-hero__media-preview {
+            display: block;
+            width: 100%;
+            max-height: 180px;
+            object-fit: cover;
+            border-radius: 3px;
+        }
+
+        .components-text-control__input {
+            width: 100%;
+            margin-bottom: 16px;
+        }
+
+        .landing-hero__subtitle,
+        .landing-hero__title {
+            &:focus {
+                outline: none;
+            }
+        }
+    }
+}
