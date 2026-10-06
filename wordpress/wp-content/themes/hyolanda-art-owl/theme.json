@@ -4,14 +4,24 @@
   "settings": {
     "color": {
       "palette": [
-        { "slug": "brand-primary", "color": "#89b0ae", "name": "Primary Green" },
-        { "slug": "brand-dark", "color": "#555b6e", "name": "Dark" }
+        { "slug": "blue-light", "color": "#bae8e8", "name": "Light Blue" },
+        { "slug": "blue-dark", "color": "#272344", "name": "Dark Blue" },
+        { "slug": "yellow", "color": "#ffd802", "name": "Yellow" },
+        { "slug": "white", "color": "#ffffff", "name": "White" }
       ]
     },
-    "spacing": {
-      "spacingSizes": [
-        { "slug": "sm", "size": "1rem", "name": "Small" },
-        { "slug": "md", "size": "2rem", "name": "Medium" }
+    "typography": {
+      "fontFamilies": [
+        {
+          "name": "Primary",
+          "slug": "primary",
+          "fontFamily": "serif"
+        },
+        {
+          "name": "Secondary",
+          "slug": "secondary",
+          "fontFamily": "'Open Sans', sans-serif"
+        }
       ]
     }
   }

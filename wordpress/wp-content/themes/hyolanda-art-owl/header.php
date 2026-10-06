@@ -16,20 +16,6 @@
 
   <header class="site-header">
     <div class="container">
-      <a
-        class="site-header__logo"
-        href="<?php echo esc_url(home_url('/')); ?>">
-        <?php bloginfo('name'); ?>
-      </a>
-
-      <nav class="site-header__nav">
-        <?php
-        wp_nav_menu([
-          'theme_location' => 'primary',
-          'fallback_cb'    => false,
-        ]);
-        ?>
-      </nav>
     </div>
   </header>
 
