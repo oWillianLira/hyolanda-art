@@ -13,14 +13,40 @@
     "typography": {
       "fontFamilies": [
         {
-          "name": "Primary",
+          "name": "Oswald",
           "slug": "primary",
-          "fontFamily": "serif"
+          "fontFamily": "Oswald, sans-serif",
+          "fontFace": [
+            {
+              "fontFamily": "Oswald",
+              "fontWeight": "200 700",
+              "fontStyle": "normal",
+              "src": ["file:./assets/fonts/oswald/Oswald-VariableFont_wght.ttf"]
+            }
+          ]
         },
         {
-          "name": "Secondary",
+          "name": "Instrument Serif",
           "slug": "secondary",
-          "fontFamily": "'Open Sans', sans-serif"
+          "fontFamily": "'Instrument Serif', serif",
+          "fontFace": [
+            {
+              "fontFamily": "Instrument Serif",
+              "fontWeight": "400",
+              "fontStyle": "normal",
+              "src": [
+                "file:./assets/fonts/instrument-serif/InstrumentSerif-Regular.ttf"
+              ]
+            },
+            {
+              "fontFamily": "Instrument Serif",
+              "fontWeight": "400",
+              "fontStyle": "italic",
+              "src": [
+                "file:./assets/fonts/instrument-serif/InstrumentSerif-Italic.ttf"
+              ]
+            }
+          ]
         }
       ]
     }

@@ -14,7 +14,9 @@ const blockEntries = Object.fromEntries(
   ]),
 );
 
-export default defineConfig({
+export default defineConfig(({ command }) => ({
+  base: command === 'serve' ? '/' : './',
+
   plugins: [
     react({
       jsxRuntime: 'classic',
@@ -51,4 +53,4 @@ export default defineConfig({
       '@blocks': path.resolve(__dirname, 'assets/blocks'),
     },
   },
-});
+}));
