@@ -9,12 +9,7 @@ const {
 const { Button, PanelBody, SelectControl, TextControl } = wp.components;
 const { Fragment } = wp.element;
 
-const PARALLAX_OPTIONS = [
-  { label: 'None', value: 'none' },
-  { label: 'Slow', value: 'slow' },
-  { label: 'Medium', value: 'medium' },
-  { label: 'Fast', value: 'fast' },
-];
+import { normalizeUrl } from '@utils/links';
 
 const BACKGROUND_POSITIONS = [
   { label: 'Center Center', value: 'center center' },
@@ -109,6 +104,11 @@ function CtaControls({ index, attributes, setAttributes, palette }) {
         type="url"
         value={url}
         onChange={(value) => setAttributes({ [`${prefix}Url`]: value })}
+        onBlur={(event) =>
+          setAttributes({
+            [`${prefix}Url`]: normalizeUrl(event.currentTarget.value),
+          })
+        }
         placeholder="https://example.com"
       />
 
@@ -154,9 +154,7 @@ export default function Edit({ attributes, setAttributes }) {
     backgroundType,
     backgroundColor,
     backgroundImageUrl,
-    backgroundImageAlt,
     backgroundPosition,
-    parallaxSpeed,
     cta1Text,
     cta1Url,
     cta1Target,
@@ -182,7 +180,6 @@ export default function Edit({ attributes, setAttributes }) {
   const blockProps = useBlockProps({
     className: [
       'landing-hero',
-      parallaxSpeed !== 'none' ? `landing-hero--parallax-${parallaxSpeed}` : '',
       backgroundType === 'image' && backgroundImageUrl
         ? 'landing-hero--has-image'
         : '',
@@ -254,14 +251,6 @@ export default function Edit({ attributes, setAttributes }) {
             options={getPaletteOptions(palette)}
             onChange={(value) => setAttributes({ subtitleColor: value })}
           />
-
-          <SelectControl
-            label="Background color"
-            value={backgroundColor}
-            options={getPaletteOptions(palette)}
-            onChange={(value) => setAttributes({ backgroundColor: value })}
-            disabled={backgroundType !== 'color'}
-          />
         </PanelBody>
 
         <PanelBody title="Background" initialOpen={false}>
@@ -275,15 +264,33 @@ export default function Edit({ attributes, setAttributes }) {
             onChange={(value) => setAttributes({ backgroundType: value })}
           />
 
+          {backgroundType === 'color' && (
+            <SelectControl
+              label="Background color"
+              value={backgroundColor}
+              options={getPaletteOptions(palette)}
+              onChange={(value) => setAttributes({ backgroundColor: value })}
+            />
+          )}
+
           {backgroundType === 'image' && (
             <Fragment>
+              <SelectControl
+                label="Image position"
+                value={backgroundPosition}
+                options={BACKGROUND_POSITIONS}
+                onChange={(value) =>
+                  setAttributes({
+                    backgroundPosition: value,
+                  })
+                }
+              />
               <MediaUploadCheck>
                 <MediaUpload
                   onSelect={(media) =>
                     setAttributes({
                       backgroundImageId: media.id,
                       backgroundImageUrl: media.url,
-                      backgroundImageAlt: media.alt || media.title || '',
                     })
                   }
                   allowedTypes={['image']}
@@ -310,7 +317,6 @@ export default function Edit({ attributes, setAttributes }) {
                             setAttributes({
                               backgroundImageId: 0,
                               backgroundImageUrl: '',
-                              backgroundImageAlt: '',
                             })
                           }
                         >
@@ -321,24 +327,6 @@ export default function Edit({ attributes, setAttributes }) {
                   )}
                 />
               </MediaUploadCheck>
-
-              <SelectControl
-                label="Image position"
-                value={backgroundPosition}
-                options={BACKGROUND_POSITIONS}
-                onChange={(value) =>
-                  setAttributes({
-                    backgroundPosition: value,
-                  })
-                }
-              />
-
-              <SelectControl
-                label="Parallax"
-                value={parallaxSpeed}
-                options={PARALLAX_OPTIONS}
-                onChange={(value) => setAttributes({ parallaxSpeed: value })}
-              />
             </Fragment>
           )}
         </PanelBody>

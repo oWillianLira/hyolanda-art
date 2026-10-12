@@ -14,10 +14,6 @@ function getFontClass(slug) {
   return slug ? `has-${slug}-font-family` : '';
 }
 
-function getParallaxClass(speed) {
-  return speed && speed !== 'none' ? `landing-hero--parallax-${speed}` : '';
-}
-
 function Cta({ text, url, target, style, backgroundColor, textColor }) {
   if (!text && !url) {
     return null;
@@ -55,9 +51,7 @@ export default function Save({ attributes }) {
     backgroundType,
     backgroundColor,
     backgroundImageUrl,
-    backgroundImageAlt,
     backgroundPosition,
-    parallaxSpeed,
     cta1Text,
     cta1Url,
     cta1Target,
@@ -75,7 +69,6 @@ export default function Save({ attributes }) {
   const blockProps = useBlockProps.save({
     className: [
       'landing-hero',
-      getParallaxClass(parallaxSpeed),
       backgroundType === 'image' && backgroundImageUrl
         ? 'landing-hero--has-image'
         : '',
@@ -94,10 +87,7 @@ export default function Save({ attributes }) {
   });
 
   return (
-    <section
-      {...blockProps}
-      data-parallax-speed={backgroundType === 'image' ? parallaxSpeed : undefined}
-    >
+    <section {...blockProps}>
       <div className="landing-hero__overlay" />
 
       <div className="landing-hero__content">
