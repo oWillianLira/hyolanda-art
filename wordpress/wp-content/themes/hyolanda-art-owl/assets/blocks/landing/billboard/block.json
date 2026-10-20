@@ -1,0 +1,36 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "landing/billboard",
+  "version": "1.0.0",
+  "title": "Landing Billboard",
+  "category": "design",
+  "icon": "slides",
+  "description": "",
+  "attributes": {
+    "title": {
+      "type": "string",
+      "default": "Break the mould"
+    },
+    "titleFontFamily": {
+      "type": "string",
+      "default": ""
+    },
+    "animationSpeed": {
+      "type": "number",
+      "default": 0
+    }
+  },
+  "supports": {
+    "color": {
+      "gradients": false,
+      "background": true,
+      "text": true
+    },
+    "typography": {
+      "__experimentalFontFamily": true,
+      "fontSize": true
+    }
+  },
+  "editorScript": "file:./index.jsx"
+}

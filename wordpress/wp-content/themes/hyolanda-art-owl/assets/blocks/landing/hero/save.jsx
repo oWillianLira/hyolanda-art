@@ -1,18 +1,6 @@
 const { RichText, useBlockProps } = wp.blockEditor;
 
-function getColorClass(slug, type = 'color') {
-  if (!slug) {
-    return '';
-  }
-
-  return type === 'background'
-    ? `has-${slug}-background-color`
-    : `has-${slug}-color`;
-}
-
-function getFontClass(slug) {
-  return slug ? `has-${slug}-font-family` : '';
-}
+import { getColorClass, getFontClass } from '@utils/block-presets';
 
 function Cta({ text, url, target, style, backgroundColor, textColor }) {
   if (!text && !url) {
@@ -88,8 +76,6 @@ export default function Save({ attributes }) {
 
   return (
     <section {...blockProps}>
-      <div className="landing-hero__overlay" />
-
       <div className="landing-hero__content">
         <RichText.Content
           tagName="p"

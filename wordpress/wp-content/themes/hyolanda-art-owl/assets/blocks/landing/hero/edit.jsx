@@ -10,76 +10,15 @@ const { Button, PanelBody, SelectControl, TextControl } = wp.components;
 const { Fragment } = wp.element;
 
 import { normalizeUrl } from '@utils/links';
-
-const BACKGROUND_POSITIONS = [
-  { label: 'Center Center', value: 'center center' },
-  { label: 'Center Top', value: 'center top' },
-  { label: 'Center Bottom', value: 'center bottom' },
-  { label: 'Left Center', value: 'left center' },
-  { label: 'Right Center', value: 'right center' },
-];
-
-const BUTTON_STYLES = [
-  { label: 'Primary', value: 'primary' },
-  { label: 'Secondary', value: 'secondary' },
-];
-
-function normalizePresets(presets) {
-  if (Array.isArray(presets)) {
-    return presets;
-  }
-
-  if (!presets || typeof presets !== 'object') {
-    return [];
-  }
-
-  return Object.values(presets).flatMap((group) =>
-    Array.isArray(group) ? group : [],
-  );
-}
-
-function getPaletteOptions(palette) {
-  const colors = normalizePresets(palette);
-
-  return [
-    { label: 'Default', value: '' },
-    ...colors.map((color) => ({
-      label: color.name,
-      value: color.slug,
-    })),
-  ];
-}
-
-function getFontFamilyOptions(fontFamilies) {
-  const fonts = normalizePresets(fontFamilies);
-
-  return [
-    { label: 'Default', value: '' },
-    ...fonts.map((font) => ({
-      label: font.name,
-      value: font.slug,
-    })),
-  ];
-}
-
-function getColorValue(slug, palette) {
-  const color = palette.find((item) => item.slug === slug);
-  return color ? color.color : undefined;
-}
-
-function getColorClass(slug, type = 'color') {
-  if (!slug) {
-    return '';
-  }
-
-  return type === 'background'
-    ? `has-${slug}-background-color`
-    : `has-${slug}-color`;
-}
-
-function getFontClass(slug) {
-  return slug ? `has-${slug}-font-family` : '';
-}
+import {
+  getColorClass,
+  getColorValue,
+  getFontClass,
+  getFontFamilyOptions,
+  getPaletteOptions,
+  normalizePresets,
+} from '@utils/block-presets';
+import { BACKGROUND_POSITIONS, BUTTON_STYLES } from '@utils/block-options';
 
 function CtaControls({ index, attributes, setAttributes, palette }) {
   const prefix = `cta${index}`;
@@ -347,8 +286,6 @@ export default function Edit({ attributes, setAttributes }) {
       </InspectorControls>
 
       <section {...blockProps}>
-        <div className="landing-hero__overlay" />
-
         <div className="landing-hero__content">
           <RichText
             tagName="p"

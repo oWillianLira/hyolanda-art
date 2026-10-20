@@ -14,13 +14,6 @@
     background-attachment: fixed;
   }
 
-  &__overlay {
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    pointer-events: none;
-  }
-
   &__content {
     position: relative;
     z-index: 1;
