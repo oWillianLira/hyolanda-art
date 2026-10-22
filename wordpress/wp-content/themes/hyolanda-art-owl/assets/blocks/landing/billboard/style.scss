@@ -1,0 +1,82 @@
+.landing-billboard {
+  overflow: hidden;
+
+  &__content {
+    overflow: hidden;
+  }
+
+  &__track {
+    display: flex;
+    width: max-content;
+    will-change: transform;
+  }
+
+  &__track.is-ready {
+    animation: billboard-marquee var(--billboard-animation-duration, 15s) linear
+      infinite;
+  }
+
+  &__group {
+    display: flex;
+    flex: none;
+    width: max-content;
+  }
+
+  &__title {
+    flex: none;
+    margin: 0;
+    padding-right: 4em;
+    font-weight: 400;
+    font-size: inherit;
+    white-space: nowrap;
+
+    em,
+    i {
+      font-family: var(--wp--preset--font-family--secondary, serif);
+      font-size: 1.1em;
+    }
+  }
+
+  &__content:hover &__track,
+  &__content:focus-within &__track {
+    animation-play-state: paused;
+  }
+}
+
+@keyframes billboard-marquee {
+  to {
+    transform: translateX(var(--billboard-marquee-distance, -50%));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .landing-billboard,
+  .landing-billboard__content {
+    overflow: visible;
+  }
+
+  .landing-billboard__track {
+    animation: none;
+    transform: none;
+    width: auto;
+    display: block;
+    will-change: auto;
+  }
+
+  .landing-billboard__group {
+    display: block;
+    width: auto;
+  }
+
+  .landing-billboard__group + .landing-billboard__group {
+    display: none;
+  }
+
+  .landing-billboard__title ~ .landing-billboard__title {
+    display: none;
+  }
+
+  .landing-billboard__title {
+    white-space: normal;
+  }
+}

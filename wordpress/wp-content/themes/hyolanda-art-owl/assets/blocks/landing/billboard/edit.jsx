@@ -1,17 +1,88 @@
-const { RichText, useBlockProps } = wp.blockEditor;
+const { InspectorControls, RichText, useBlockProps } = wp.blockEditor;
+const { __experimentalInputControl: InputControl, PanelBody } = wp.components;
+const { useEffect, useRef, useState } = wp.element;
 
 export default function Edit({ attributes, setAttributes }) {
-  const blockProps = useBlockProps();
+  const { title, animationSpeed = 15 } = attributes;
+  const contentRef = useRef(null);
+  const [titleCopies, setTitleCopies] = useState(2);
+
+  useEffect(() => {
+    const content = contentRef.current;
+
+    if (!content) {
+      return undefined;
+    }
+
+    const updateCopies = () => {
+      const titleElement = content.querySelector('.landing-billboard__title');
+      const titleWidth = titleElement?.getBoundingClientRect().width;
+
+      if (!content.clientWidth || !titleWidth) {
+        setTitleCopies(2);
+        return;
+      }
+
+      setTitleCopies(Math.max(2, Math.ceil(content.clientWidth / titleWidth) + 1));
+    };
+
+    const observer = new ResizeObserver(updateCopies);
+    observer.observe(content);
+    updateCopies();
+
+    return () => observer.disconnect();
+  }, [title]);
+
+  const blockProps = useBlockProps({
+    style: {
+      '--billboard-animation-duration': `${animationSpeed}s`,
+    },
+  });
+
+  const repeatedTitles = Array.from({ length: titleCopies }, (_, index) => (
+    <RichText.Content
+      key={index}
+      tagName="h1"
+      className="landing-billboard__title"
+      value={title}
+      aria-hidden={index > 0 ? 'true' : undefined}
+    />
+  ));
 
   return (
     <section {...blockProps}>
-      <div className="landing-billboard__content">
-        <RichText
-          tagName="h1"
-          value={attributes.title}
-          onChange={(title) => setAttributes({ title })}
-          placeholder="Enter title..."
-        />
+      <InspectorControls>
+        <PanelBody title="Billboard" initialOpen>
+          <label>ANIMATED TEXT</label> {/* TODO */}
+          <RichText
+            tagName="h1"
+            className="landing-billboard__editor-input"
+            allowedFormats={['core/bold', 'core/italic']}
+            value={title}
+            onChange={(value) => setAttributes({ title: value })}
+            placeholder="Enter text..."
+          />
+          <InputControl
+            label="Animation duration (seconds)"
+            type="number"
+            min={5}
+            max={30}
+            step={1}
+            value={animationSpeed}
+            onChange={(value) =>
+              setAttributes({ animationSpeed: value === '' ? 15 : Number(value) })
+            }
+          />
+        </PanelBody>
+      </InspectorControls>
+
+      <div className="landing-billboard__content" ref={contentRef}>
+        <div className="landing-billboard__track is-ready">
+          <div className="landing-billboard__group">{repeatedTitles}</div>
+          <div className="landing-billboard__group" aria-hidden="true">
+            {repeatedTitles}
+          </div>
+        </div>
       </div>
     </section>
   );

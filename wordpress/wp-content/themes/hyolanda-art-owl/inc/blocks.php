@@ -141,14 +141,30 @@ function hyo_register_blocks()
     hyo_mark_script_as_module($handle);
     wp_enqueue_script($handle);
 
+    $editor_style_handles = [];
+
+    if ($is_dev) {
+      $editor_style_handle = $handle . '-editor';
+      wp_register_style(
+        $editor_style_handle,
+        'http://127.0.0.1:5173/' . $relative_path . '/style.scss',
+        [],
+        null
+      );
+      wp_enqueue_style($editor_style_handle);
+      $editor_style_handles[] = $editor_style_handle;
+    }
+
     if (!$is_dev && !empty($entry['css'])) {
       foreach ($entry['css'] as $index => $css) {
+        $style_handle = $handle . '-' . $index;
         wp_enqueue_style(
-          $handle . '-' . $index,
+          $style_handle,
           get_template_directory_uri() . '/dist/' . $css,
           [],
           null
         );
+        $editor_style_handles[] = $style_handle;
       }
     }
 
@@ -156,6 +172,7 @@ function hyo_register_blocks()
       $block_path,
       [
         'editor_script' => $handle,
+        'editor_style' => $editor_style_handles,
       ]
     );
   }

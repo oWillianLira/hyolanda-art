@@ -7,23 +7,19 @@
   "category": "design",
   "icon": "slides",
   "description": "",
+  "viewScript": "file:./view.js",
   "attributes": {
     "title": {
       "type": "string",
-      "default": "Break the mould"
-    },
-    "titleFontFamily": {
-      "type": "string",
-      "default": ""
+      "default": "Break the <em>mould</em>"
     },
     "animationSpeed": {
       "type": "number",
-      "default": 0
+      "default": 15
     }
   },
   "supports": {
     "color": {
-      "gradients": false,
       "background": true,
       "text": true
     },
