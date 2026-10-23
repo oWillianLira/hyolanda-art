@@ -7,3 +7,9 @@ add_action('wp_enqueue_scripts', function () {
 
     $assets->enqueue();
 });
+
+add_action('admin_enqueue_scripts', function () {
+    $assets = new Assets();
+
+    $assets->enqueueEditor();
+});

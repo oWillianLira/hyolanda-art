@@ -53,15 +53,19 @@ export default function Edit({ attributes, setAttributes }) {
     <section {...blockProps}>
       <InspectorControls>
         <PanelBody title="Billboard" initialOpen>
-          <label>ANIMATED TEXT</label> {/* TODO */}
-          <RichText
-            tagName="h1"
-            className="landing-billboard__editor-input"
-            allowedFormats={['core/bold', 'core/italic']}
-            value={title}
-            onChange={(value) => setAttributes({ title: value })}
-            placeholder="Enter text..."
-          />
+          <div className="custom-richtext">
+            <small className="custom-richtext__label">ANIMATED TEXT</small>
+            <div className="custom-richtext__input">
+              <RichText
+                tagName="h4"
+                identifier="landing-billboard__title"
+                placeholder="Enter text..."
+                allowedFormats={['core/bold', 'core/italic']}
+                value={title}
+                onChange={(value) => setAttributes({ title: value })}
+              />
+            </div>
+          </div>
           <InputControl
             label="Animation duration (seconds)"
             type="number"

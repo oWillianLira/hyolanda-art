@@ -1,0 +1,45 @@
+.block-editor {
+  .components-popover {
+    left: unset !important;
+    right: 20px;
+  }
+
+  .editor-sidebar {
+    // Custom RichText input styles
+    .custom-richtext {
+      &__label {
+        font-size: 11px;
+        font-weight: 600;
+        line-height: 1.4;
+      }
+
+      &__input {
+        > * {
+          padding: 8px;
+          margin: 6px 0 12px;
+          border: 1px solid
+            var(
+              --wp-components-color-gray-600,
+              var(--wpds-color-stroke-interactive-neutral, #8d8d8d)
+            );
+          border-radius: 2px;
+          font-size: 14px;
+          line-height: 1.1;
+          font-weight: inherit;
+        }
+
+        :focus,
+        :focus-within {
+          border-color: var(
+            --wp-components-color-accent,
+            var(--wp-admin-theme-color, #3858e9)
+          );
+          box-shadow: 0 0 0 0.5px
+            var(--wp-components-color-accent, var(--wp-admin-theme-color, #3858e9));
+          outline: transparent solid 2px;
+          outline-offset: -2px;
+        }
+      }
+    }
+  }
+}

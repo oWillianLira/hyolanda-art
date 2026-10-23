@@ -34,6 +34,7 @@ export default defineConfig(({ command }) => ({
     rollupOptions: {
       input: {
         main: 'assets/js/main.js',
+        editor: 'assets/scss/editor.scss',
         woocommerce: 'assets/scss/woocommerce.scss',
         ...blockEntries,
       },

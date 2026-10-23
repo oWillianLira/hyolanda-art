@@ -13,7 +13,7 @@ export default function Save({ attributes }) {
         <div className="landing-billboard__track">
           <div className="landing-billboard__group">
             <RichText.Content
-              tagName="h1"
+              tagName="h4"
               className="landing-billboard__title"
               value={title}
             />

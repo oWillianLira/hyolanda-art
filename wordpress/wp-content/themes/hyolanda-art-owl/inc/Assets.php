@@ -35,6 +35,33 @@ class Assets
     $this->enqueueProd();
   }
 
+  public function enqueueEditor(): void
+  {
+    if ($this->isDev()) {
+      wp_enqueue_style(
+        'hyo-admin-editor',
+        $this->devServer . '/assets/scss/editor.scss',
+        [],
+        null
+      );
+
+      return;
+    }
+
+    $asset = $this->manifest['assets/scss/editor.scss'] ?? null;
+
+    if (!$asset || empty($asset['file'])) {
+      return;
+    }
+
+    wp_enqueue_style(
+      'hyo-admin-editor',
+      get_template_directory_uri() . '/dist/' . $asset['file'],
+      [],
+      null
+    );
+  }
+
   private function isDev(): bool
   {
     $connection = @fsockopen(
