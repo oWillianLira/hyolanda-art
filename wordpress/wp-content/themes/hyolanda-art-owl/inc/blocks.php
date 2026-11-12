@@ -58,6 +58,26 @@ function hyo_enqueue_vite_client(): void
 
 add_action('enqueue_block_editor_assets', 'hyo_enqueue_vite_client', 0);
 
+function hyo_enqueue_block_variations(): void
+{
+  $script_path =
+    get_template_directory() . '/assets/js/gutenberg/variations.js';
+
+  if (!file_exists($script_path)) {
+    return;
+  }
+
+  wp_enqueue_script(
+    'hyo-block-variations',
+    get_template_directory_uri() . '/assets/js/gutenberg/variations.js',
+    ['wp-blocks', 'wp-dom-ready'],
+    filemtime($script_path),
+    true
+  );
+}
+
+add_action('enqueue_block_editor_assets', 'hyo_enqueue_block_variations', 20);
+
 function hyo_register_blocks()
 {
   $is_dev = hyo_vite_dev_server_is_running();
