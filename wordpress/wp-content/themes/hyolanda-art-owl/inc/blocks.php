@@ -70,7 +70,7 @@ function hyo_enqueue_block_variations(): void
   wp_enqueue_script(
     'hyo-block-variations',
     get_template_directory_uri() . '/assets/js/gutenberg/variations.js',
-    ['wp-blocks', 'wp-dom-ready'],
+    ['wp-blocks', 'wp-dom-ready', 'wp-i18n'],
     filemtime($script_path),
     true
   );

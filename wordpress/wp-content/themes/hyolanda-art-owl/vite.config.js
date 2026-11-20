@@ -8,10 +8,9 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const blockEntries = Object.fromEntries(
-  globSync('assets/blocks/**/index.jsx').map((file) => [
-    file.replace(/\\/g, '/'),
-    file,
-  ]),
+  globSync('assets/blocks/**/index.jsx', {
+    ignore: ['assets/blocks/extensions/**'],
+  }).map((file) => [file.replace(/\\/g, '/'), file]),
 );
 
 export default defineConfig(({ command }) => ({
@@ -34,7 +33,7 @@ export default defineConfig(({ command }) => ({
     rollupOptions: {
       input: {
         main: 'assets/js/main.js',
-        editor: 'assets/scss/editor.scss',
+        editor: 'assets/js/editor.js',
         woocommerce: 'assets/scss/woocommerce.scss',
         ...blockEntries,
       },

@@ -1,0 +1,87 @@
+.hyo-button-hover {
+  .wp-block-button__link {
+    transition:
+      color var(--hyo-hover-duration, 300ms) ease,
+      background-color var(--hyo-hover-duration, 300ms) ease,
+      border-color var(--hyo-hover-duration, 300ms) ease,
+      background-size var(--hyo-hover-duration, 300ms) ease,
+      transform var(--hyo-hover-duration, 300ms) ease,
+      box-shadow var(--hyo-hover-duration, 300ms) ease;
+  }
+
+  // Hover colors (independent of animation)
+  // Background
+  &.has-hyo-hover-bg:not(.hyo-button-hover--fill) {
+    .wp-block-button__link:is(:hover, :focus-visible) {
+      background-color: var(--hyo-hover-bg) !important;
+    }
+  }
+
+  // Text
+  &.has-hyo-hover-text {
+    .wp-block-button__link:is(:hover, :focus-visible) {
+      color: var(--hyo-hover-text) !important;
+    }
+  }
+
+  // Border
+  &.has-hyo-hover-border {
+    .wp-block-button__link:is(:hover, :focus-visible) {
+      border-color: var(--hyo-hover-border) !important;
+    }
+  }
+
+  // Scale
+  &--scale {
+    .wp-block-button__link:is(:hover, :focus-visible) {
+      transform: scale(1.05);
+    }
+  }
+
+  // Fill: left to right
+  &--fill.has-hyo-hover-bg {
+    .wp-block-button__link {
+      background-image: linear-gradient(
+        to right,
+        var(--hyo-hover-bg),
+        var(--hyo-hover-bg)
+      );
+      background-repeat: no-repeat;
+      background-position: left center;
+      background-size: 0% 100%;
+
+      &:is(:hover, :focus-visible) {
+        background-size: 100% 100%;
+      }
+    }
+  }
+
+  // Slide
+  &--slide {
+    .wp-block-button__link:is(:hover, :focus-visible) {
+      transform: translateX(6px);
+    }
+  }
+
+  // Lift
+  &--lift {
+    .wp-block-button__link:is(:hover, :focus-visible) {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 20px rgb(0 0 0 / 15%);
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hyo-button-hover .wp-block-button__link {
+    transition-duration: 0.01ms;
+  }
+
+  .hyo-button-hover--scale .wp-block-button__link,
+  .hyo-button-hover--slide .wp-block-button__link,
+  .hyo-button-hover--lift .wp-block-button__link {
+    &:is(:hover, :focus-visible) {
+      transform: none;
+    }
+  }
+}

@@ -1,3 +1,4 @@
+
 <?php
 class Assets
 {
@@ -38,27 +39,76 @@ class Assets
   public function enqueueEditor(): void
   {
     if ($this->isDev()) {
-      wp_enqueue_style(
-        'hyo-admin-editor',
-        $this->devServer . '/assets/scss/editor.scss',
+      wp_enqueue_script(
+        'vite-client',
+        $this->devServer . '/@vite/client',
         [],
-        null
+        null,
+        false
       );
+
+      wp_enqueue_script(
+        'theme-editor',
+        $this->devServer . '/assets/js/editor.js',
+        [
+          'wp-blocks',
+          'wp-hooks',
+          'wp-compose',
+          'wp-element',
+          'wp-components',
+          'wp-block-editor',
+        ],
+        null,
+        true
+      );
+
+      add_filter('script_loader_tag', function ($tag, $handle) {
+        if (in_array($handle, ['vite-client', 'theme-editor'], true)) {
+          return str_replace(
+            '<script ',
+            '<script type="module" ',
+            $tag
+          );
+        }
+
+        return $tag;
+      }, 10, 2);
 
       return;
     }
 
-    $asset = $this->manifest['assets/scss/editor.scss'] ?? null;
+    $asset = $this->manifest['assets/js/editor.js'] ?? null;
 
     if (!$asset || empty($asset['file'])) {
       return;
     }
 
-    wp_enqueue_style(
-      'hyo-admin-editor',
-      get_template_directory_uri() . '/dist/' . $asset['file'],
-      [],
-      null
+    $themeUri = get_template_directory_uri();
+
+    if (!empty($asset['css'])) {
+      foreach ($asset['css'] as $index => $css) {
+        wp_enqueue_style(
+          'hyo-admin-editor-' . $index,
+          $themeUri . '/dist/' . $css,
+          [],
+          null
+        );
+      }
+    }
+
+    wp_enqueue_script(
+      'theme-editor',
+      $themeUri . '/dist/' . $asset['file'],
+      [
+        'wp-blocks',
+        'wp-hooks',
+        'wp-compose',
+        'wp-element',
+        'wp-components',
+        'wp-block-editor',
+      ],
+      null,
+      true
     );
   }
 
@@ -100,7 +150,6 @@ class Assets
     );
 
     add_filter('script_loader_tag', function ($tag, $handle) {
-
       if (in_array($handle, ['vite-client', 'theme'], true)) {
         return str_replace(
           '<script ',
