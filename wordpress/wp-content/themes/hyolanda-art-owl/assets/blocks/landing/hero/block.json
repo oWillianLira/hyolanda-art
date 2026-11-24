@@ -111,6 +111,5 @@
   },
   "supports": {
     "anchor": true
-  },
-  "editorScript": "file:./index.jsx"
+  }
 }

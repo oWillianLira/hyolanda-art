@@ -27,6 +27,5 @@
       "__experimentalFontFamily": true,
       "fontSize": true
     }
-  },
-  "editorScript": "file:./index.jsx"
+  }
 }

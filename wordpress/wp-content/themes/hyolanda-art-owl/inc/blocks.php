@@ -78,15 +78,25 @@ function hyo_enqueue_block_variations(): void
 
 add_action('enqueue_block_editor_assets', 'hyo_enqueue_block_variations', 20);
 
+
 function hyo_register_blocks()
 {
+  $theme_path = get_template_directory();
+  $theme_uri = get_template_directory_uri();
+
+  $blocks_path = $theme_path . '/assets/blocks';
+
+  if (!is_dir($blocks_path)) {
+    return;
+  }
+
   $is_dev = hyo_vite_dev_server_is_running();
-  $manifest_path =
-    get_template_directory() . '/dist/.vite/manifest.json';
 
   $manifest = [];
 
   if (!$is_dev) {
+    $manifest_path = $theme_path . '/dist/.vite/manifest.json';
+
     if (!file_exists($manifest_path)) {
       return;
     }
@@ -97,11 +107,6 @@ function hyo_register_blocks()
     ) ?? [];
   }
 
-  $blocks_path =
-    get_template_directory() . '/assets/blocks';
-
-  $block_files = [];
-
   $iterator = new RecursiveIteratorIterator(
     new RecursiveDirectoryIterator(
       $blocks_path,
@@ -110,40 +115,38 @@ function hyo_register_blocks()
   );
 
   foreach ($iterator as $file) {
-    if ($file->getFilename() === 'block.json') {
-      $block_files[] = $file->getPathname();
+    if ($file->getFilename() !== 'block.json') {
+      continue;
     }
-  }
 
-  foreach ($block_files as $block_file) {
-    $block_path = dirname($block_file);
+    $block_path = dirname($file->getPathname());
 
     $relative_path = str_replace(
-      get_template_directory() . '/',
-      '',
-      $block_path
+      '\\',
+      '/',
+      substr($block_path, strlen($theme_path) + 1)
     );
 
     $entry_key = $relative_path . '/index.jsx';
 
-    if ($is_dev) {
-      $script_url = 'http://127.0.0.1:5173/' . $entry_key;
-      $entry = null;
-    } else {
-      $entry = $manifest[$entry_key] ?? null;
+    $entry = $is_dev
+      ? null
+      : ($manifest[$entry_key] ?? null);
 
-      if (!$entry) {
-        continue;
-      }
-
-      $script_url = get_template_directory_uri() . '/dist/' . $entry['file'];
+    if (!$is_dev && empty($entry['file'])) {
+      continue;
     }
 
-    $handle = str_replace(
+    $handle = 'hyo-' . str_replace(
       '/',
       '-',
       str_replace('assets/blocks/', '', $relative_path)
     );
+
+    // Register editor script
+    $script_url = $is_dev
+      ? 'http://127.0.0.1:5173/' . $entry_key
+      : $theme_uri . '/dist/' . $entry['file'];
 
     wp_register_script(
       $handle,
@@ -159,35 +162,44 @@ function hyo_register_blocks()
     );
 
     hyo_mark_script_as_module($handle);
-    wp_enqueue_script($handle);
 
+    $GLOBALS['hyo_block_editor_scripts'][] = $handle;
+
+    // Register editor styles
     $editor_style_handles = [];
 
     if ($is_dev) {
-      $editor_style_handle = $handle . '-editor';
-      wp_register_style(
-        $editor_style_handle,
-        'http://127.0.0.1:5173/' . $relative_path . '/style.scss',
-        [],
-        null
-      );
-      wp_enqueue_style($editor_style_handle);
-      $editor_style_handles[] = $editor_style_handle;
-    }
+      $style_path = $block_path . '/style.scss';
 
-    if (!$is_dev && !empty($entry['css'])) {
-      foreach ($entry['css'] as $index => $css) {
-        $style_handle = $handle . '-' . $index;
-        wp_enqueue_style(
+      if (file_exists($style_path)) {
+        $style_handle = $handle . '-editor';
+
+        wp_register_style(
           $style_handle,
-          get_template_directory_uri() . '/dist/' . $css,
+          'http://127.0.0.1:5173/' .
+            $relative_path . '/style.scss',
           [],
           null
         );
+
+        $editor_style_handles[] = $style_handle;
+      }
+    } elseif (!empty($entry['css'])) {
+      foreach ($entry['css'] as $index => $css) {
+        $style_handle = $handle . '-' . $index;
+
+        wp_register_style(
+          $style_handle,
+          $theme_uri . '/dist/' . $css,
+          [],
+          null
+        );
+
         $editor_style_handles[] = $style_handle;
       }
     }
 
+    // Let WordPress enqueue registered assets
     register_block_type(
       $block_path,
       [
@@ -199,3 +211,11 @@ function hyo_register_blocks()
 }
 
 add_action('init', 'hyo_register_blocks');
+
+add_action('enqueue_block_editor_assets', function () {
+  $handles = $GLOBALS['hyo_block_editor_scripts'] ?? [];
+
+  foreach (array_unique($handles) as $handle) {
+    wp_enqueue_script($handle);
+  }
+});

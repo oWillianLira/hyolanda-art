@@ -1,5 +1,5 @@
-
 <?php
+
 class Assets
 {
   private string $devServer = 'http://127.0.0.1:5173';
